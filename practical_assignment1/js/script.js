@@ -43,23 +43,25 @@ app.controller('AttractionsController', function($scope) {
 
     $scope.putFalseAttractions = () => {
         for (let attraction of $scope.attractions) {
-            attraction.quantity = 0;
+            attraction.quantity = 1;
             attraction.numPeopleShown = false;
         }
     }
 
     $scope.addAttraction = (id) => {
-        let attraction = _.cloneDeep(_.find($scope.attractions, a => a.id == id));
-        attraction.subtotal = attraction.price * attraction.quantity;
-        $scope.productsChosen.push(attraction);
-        $scope.putFalseAttractions();                
+        let attraction = _.find($scope.attractions, a => a.id == id);
+        if (attraction.quantity <= 0) {
+            alert("You must select minimun 1 person.");
+        }
+        else {
+            let attractionClone = _.cloneDeep(attraction);
+            attractionClone.subtotal = attractionClone.price * attractionClone.quantity;
+            $scope.productsChosen.push(attractionClone);
+            $scope.putFalseAttractions();                
+        }
     }
 
-    $scope.cancelAttraction = (id) => {
-        let attraction = _.find($scope.productsChosen, a => a.id == id)
-        attraction.quantity = 0;
-        attraction.numPeopleShown = false;
-    }
+    $scope.cancelAttraction = () => $scope.putFalseAttractions();
 
     $scope.deleteAttraction = (id) => {
         $scope.productsChosen = _.filter($scope.productsChosen, product => product.id != id);

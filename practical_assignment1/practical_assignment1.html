@@ -1,7 +1,3 @@
-<head>
-    <title>Attractions</title>
-</head>
-
 <div class="container">
     <div class="banner text-white">
         <div class="transparent p-3">
@@ -35,9 +31,9 @@
                                 <button class="btn btn-primary" ng-show="!attraction.numPeopleShown" ng-click="chooseAttraction(attraction.id)">Choose!</button>
                                 <div ng-show="attraction.numPeopleShown">
                                     <p>How many people with travel?</p>
-                                    <input type="number" min="1" ng-model="attraction.quantity" />
+                                    <input type="number" ng-model="attraction.quantity" />
                                     <button class="btn btn-primary" ng-click="addAttraction(attraction.id)">Add to Cart</button>
-                                    <button class="btn btn-primary" ng-click="cancelAttraction(attraction.id)">Cancel</button>
+                                    <button class="btn btn-primary" ng-click="cancelAttraction()">Cancel</button>
                                 </div>
                             </p>
                         </div>
