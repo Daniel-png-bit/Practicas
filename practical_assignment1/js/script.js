@@ -1,4 +1,4 @@
-// (function() {
+(function() {
     var app = angular.module('AttractionsModule', []);
     var controller = app.controller('AttractionsController', ($scope) => {
         /** TO DO
@@ -6,6 +6,12 @@
         */
        $scope.attractions = new Array();
        $scope.productsChosen = new Array();
+
+       $scope.view = {
+            get total() {
+                return _.sumBy($scope.productsChosen, prod => prod.subtotal );
+            }
+       };
 
        $scope.attractions.push(new Attraction(
            0,
@@ -63,6 +69,6 @@
 
 
     });
-// }());
+}());
 
 
