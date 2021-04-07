@@ -15,7 +15,7 @@ class ShuttleGame {
         this.shuttle.src = './practical_assignment2/images/shuttle.png';
 
         this.background = new Image();
-        this.background.src = './practical_assignment2/images/background.jpg';
+        this.background.src = './practical_assignment2/images/background.gif';
 
         this.images = new Array();
         this.images.push(this.shuttle);
@@ -112,6 +112,8 @@ class ShuttleGame {
         
         this.playing = false;
         this.message = 'GAME  OVER!!!';
+        location.reload();
+
     }
 
     update() {
@@ -171,7 +173,7 @@ class ShuttleGame {
         */
 
         for (let enemyBullet of this.enemyBullets) {
-            if ((Math.abs(this.shuttleX - enemyBullet.x) < 20 && 
+            if ((Math.abs(this.shuttleX - enemyBullet.x) < 50 && 
                     Math.abs(this.shuttleY - enemyBullet.y) < 20) ||
                     (enemyBullet.y >= this.canvas.height - enemyBullet.height)) {
                 
@@ -186,7 +188,7 @@ class ShuttleGame {
             while (i--) {
                 let enemyBullet = this.enemyBullets[i];
 
-                if (Math.abs(ownBullet.x - enemyBullet.x) < 20 &&
+                if (Math.abs(ownBullet.x - enemyBullet.x) < 60 &&
                     Math.abs(ownBullet.y - enemyBullet.y) < 20) {
                     
                     this.points++;
@@ -218,7 +220,7 @@ class ShuttleGame {
             Do this only while gamer is playing
         */
 
-        if (this.playing) {
+        if (this.playing  && this.shuttleX > 0) {
             this.shuttleX -= this.speed;
         }
     }
@@ -228,7 +230,7 @@ class ShuttleGame {
             Do this only while gamer is playing
         */
         
-        if (this.playing) {
+        if (this.playing && this.shuttleX < this.canvas.width - 110) {
             this.shuttleX += this.speed;
         }
     }
@@ -243,7 +245,7 @@ class ShuttleGame {
             return;
         }
 
-        let lastFiredBullet = new Bullet(this.shuttleX, this.shuttleY, OWN_BULLET, 10, this.ctx);
+        let lastFiredBullet = new Bullet(this.shuttleX + 40, this.shuttleY, OWN_BULLET, 10, this.ctx);
         this.ownBullets.push(lastFiredBullet);
     }
 

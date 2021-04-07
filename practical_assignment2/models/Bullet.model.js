@@ -19,11 +19,17 @@ class Bullet {
 
     draw() {
         if (this.type == OWN_BULLET) {
-            this.ctx.fillStyle = 'rgb(255, 255, 255)';
+            this.ownBullet = new Image()
+            this.ownBullet.src = './practical_assignment2/images/ownBullet.png'
+            
+            this.ctx.drawImage(this.ownBullet, this.x, this.y, this.width, this.height)
+
         } else {
-            this.ctx.fillStyle = 'yellow';
+            this.enemyBullet = new Image()
+            this.enemyBullet.src = './practical_assignment2/images/enemyBullet.png'
+ 
+            this.ctx.drawImage(this.enemyBullet, this.x, this.y)
         }
 
-        this.ctx.fillRect(this.x + this.width * 2, this.y, this.width, this.height);
     }
 }
