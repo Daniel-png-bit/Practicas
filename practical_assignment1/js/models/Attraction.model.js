@@ -5,7 +5,7 @@ class Attraction {
         this.description = description;
         this.image = image;
         this.price = price;
-        this.quantity = 0;
+        this.quantity = 1;
         this.numPeopleShown = false;
         this.subtotal = this.price * this.quantity;
     }
