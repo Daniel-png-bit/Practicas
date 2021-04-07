@@ -15,7 +15,7 @@ app.controller('AttractionsController', function($scope) {
         0,
         'Tiwanaku',
         'Located near La Paz City, it is undoubtedly one of the most outstanding cultural places in our country',
-        './practical_assignment1/images/tiwanaku.jpg',
+        './practical_assignment1/images/tiwanaku.jpeg',
         8000
     ));
 
@@ -23,7 +23,7 @@ app.controller('AttractionsController', function($scope) {
         1,
         'Uyuni Salt Flat',
         'This is by far one of the most beautiful places on earth. Come to Bolivia and visit it.',
-        './practical_assignment1/images/uyuni.webp',
+        './practical_assignment1/images/uyuni.jpeg',
         10000
     ));
 
@@ -31,7 +31,7 @@ app.controller('AttractionsController', function($scope) {
         2,
         'Villa Tunari',
         'This is one of Cochabamba\'s most beautiful places. There will always be something to do here.',
-        './practical_assignment1/images/villa_tunari.jpg',
+        './practical_assignment1/images/villa_tunari.jpeg',
         2500
     ));
 
@@ -66,7 +66,6 @@ app.controller('AttractionsController', function($scope) {
     $scope.deleteAttraction = (id) => {
         $scope.productsChosen = _.filter($scope.productsChosen, product => product.id != id);
     }
-
 
 });
 
