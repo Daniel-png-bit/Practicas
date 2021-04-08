@@ -3,10 +3,6 @@ var ENEMY_BULLET = 2;
 
 class ShuttleGame {
     constructor() {
-        /* Take some time and read this code and pay close attention
-            Can you explain what we are doing here?
-        */
-
         let body = document.querySelector('body');
         this.canvas = document.querySelector('#canvas');
         this.message = 'Press  Enter  to  start!';
@@ -23,6 +19,13 @@ class ShuttleGame {
 
         this.speed = 30;
         this.playing = false;
+
+        this.intervalFireBullet = 500;
+        this.intervalEnemyBullet = 1925;
+
+        this.laserSound = new Audio("./practical_assignment2/sounds/laserGun.wav");
+        this.shootSound = new Audio("./practical_assignment2/sounds/tab2.wav");
+        this.loseSound = new Audio("./practical_assignment2/sounds/lose.wav");
 
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
@@ -44,7 +47,7 @@ class ShuttleGame {
                 moveRightAction();
             } else if (event.keyCode == 13) {
                 startAction();
-            }
+            } 
         });
 
         let numImages = 0;
@@ -60,20 +63,6 @@ class ShuttleGame {
     }
 
     start() {
-        /* 2. Implement the logic of the start method
-            If the gamer is already playing, leave.
-            Set the shuttle's initial position to x = canvas.width / 2
-            and y = canvas.height - 150;
-
-            Also configure the rate at which enemy bullets are generated, for example 2000
-            Also configure the rate at which own bullets are generated, for example 500
-
-            Initialize all relevant variables
-
-            And finally call the showPoints() method
-
-        */
-
         if (this.playing) {
             return;
         }
@@ -81,11 +70,11 @@ class ShuttleGame {
         this.shuttleX = canvas.width / 2;
         this.shuttleY = canvas.height - 150;
 
-        let fireBulletCall = this.fireBullet.bind(this);
-        setInterval(fireBulletCall, 500);
-
-        let generateEnemyBulletsCall = this.generateEnemyBullets.bind(this);
-        setInterval(generateEnemyBulletsCall, 2000);
+        this.fireBulletCall = this.fireBullet.bind(this);
+        setInterval(this.fireBulletCall, this.intervalFireBullet);
+    
+        this.generateEnemyBulletsCall = this.generateEnemyBullets.bind(this);
+        setInterval(this.generateEnemyBulletsCall, this.intervalEnemyBullet);
 
         this.ownBullets = new Array();
         this.enemyBullets = new Array();
@@ -97,30 +86,19 @@ class ShuttleGame {
     }
 
     showPoints() {
-        /* 3. Implement showPoints method
-            that show the number of points accumulated
-        */
-        
         this.message = 'POINTS:  ' + this.points;
     }
 
     gameOver() {
-        /* 4. Implement gameOver method
-            that sets the playing attribute to false
-            and shows GAME OVER!!!
-        */
-        
         this.playing = false;
         this.message = 'GAME  OVER!!!';
-        location.reload();
-
+        this.laserSound.play();
+        setTimeout( function () {
+            location.reload();
+        }, 3000);
     }
 
     update() {
-        /* Pay close attention to this method
-            What exactly are we doing here?
-        */
-
         let ctx = this.ctx;
 
         var ptrn = ctx.createPattern(this.background, 'repeat');
@@ -136,6 +114,7 @@ class ShuttleGame {
             for (let ownBullet of this.ownBullets) {
                 ownBullet.moveUp();
                 ownBullet.draw();
+                this.laserSound.play();
             }
 
             for (let enemyBullet of this.enemyBullets) {
@@ -164,19 +143,12 @@ class ShuttleGame {
     }
 
     checkCollisions() {
-        /*
-            9. Implement checkCollisions method
-            that checks whether an enemy bullet collides with an own bullet
-
-            If an enemy bullet either collides with the shuttle or
-            reaches the floor, call the gameOver method
-        */
 
         for (let enemyBullet of this.enemyBullets) {
             if ((Math.abs(this.shuttleX - enemyBullet.x) < 50 && 
                     Math.abs(this.shuttleY - enemyBullet.y) < 20) ||
                     (enemyBullet.y >= this.canvas.height - enemyBullet.height)) {
-                
+                this.loseSound.play();
                 this.gameOver();
                 return;
             }
@@ -192,6 +164,7 @@ class ShuttleGame {
                     Math.abs(ownBullet.y - enemyBullet.y) < 20) {
                     
                     this.points++;
+                    this.shootSound.play();
                     this.enemyBullets.splice(i, 1);
                     this.showPoints();
                     break;
@@ -201,10 +174,6 @@ class ShuttleGame {
     }
 
     cleanFiredBullets(bullets) {
-            /**
-         * Check this code. Can you explain what we are doing here?
-         */
-
         let i = bullets.length;
 
         while (i--) {
@@ -216,31 +185,18 @@ class ShuttleGame {
     }
 
     moveLeft() {
-        /* 5. Implement moveLeft method that shifts the shuttle to the left
-            Do this only while gamer is playing
-        */
-
         if (this.playing  && this.shuttleX > 0) {
             this.shuttleX -= this.speed;
         }
     }
 
     moveRight() {
-        /* 6. Implement moveLeft method that shifts the shuttle to the right
-            Do this only while gamer is playing
-        */
-        
         if (this.playing && this.shuttleX < this.canvas.width - 110) {
             this.shuttleX += this.speed;
         }
     }
 
     fireBullet() {
-        /*
-            7. Implement fireBullet method that fires own bullets
-            Do this only while playing
-        */
-
         if (!this.playing) {
             return;
         }
@@ -250,13 +206,6 @@ class ShuttleGame {
     }
 
     generateEnemyBullets() {
-        /*
-            8. Implement generateEnemyBullets method that creates
-            enemy bullets
-
-            Do this only while playing
-        */
-
         if (!this.playing) {
             return;
         }
@@ -265,4 +214,6 @@ class ShuttleGame {
         let enemyBullet = new Bullet(x, 0, ENEMY_BULLET, 3, this.ctx);
         this.enemyBullets.push(enemyBullet);
     }
+
 }
+
