@@ -1,0 +1,8 @@
+RewriteEngine On
+RewriteRule ^students/?$ students_controller.php [NC,L]
+RewriteRule ^students/([0-9]+)/?$ students_controller.php?id=$1 [NC,L]
+RewriteRule ^students1/?$ students_router.php [NC,L]
+RewriteRule ^students1/([0-9]+)/?$ students_router.php?id=$1 [NC,L]
+
+RewriteRule ^professors/?$ professors_controller.php [NC,L]
+RewriteRule ^professors/([0-9]+)/?$ professors_controller.php?id=$1 [NC,L]
